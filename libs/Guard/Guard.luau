@@ -1,4 +1,4 @@
-export type Check<T> = (Value:  | any) -> T
+export type Check<T> = (Value: unknown | any) -> T
 
 -- Luau Primitive Types
 
@@ -425,13 +425,13 @@ end
 local Player: Check<Player> = function(Value)
 	assert(Value:IsA("Player"))
 
-	return Value
+	return Value :: Player
 end
 
 local Model: Check<Model> = function(Value)
 	assert(Value:IsA("Model"))
 
-	return Value
+	return Value :: Model
 end
 
 -- Check
