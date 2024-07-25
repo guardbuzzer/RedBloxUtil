@@ -1,4 +1,4 @@
-export type Check<T> = (Value: unknown) -> T
+export type Check<T> = (Value: unknown | any) -> T
 
 -- Luau Primitive Types
 
@@ -177,6 +177,12 @@ local Color3: Check<Color3> = function(Value)
 	return Value
 end
 
+local ColorSequence: Check<ColorSequence> = function(Value)
+	assert(typeof(Value) == "ColorSequence")
+
+	return Value
+end
+
 local DateTime: Check<DateTime> = function(Value)
 	assert(typeof(Value) == "DateTime")
 
@@ -185,6 +191,55 @@ end
 
 local Instance: Check<Instance> = function(Value)
 	assert(typeof(Value) == "Instance")
+
+	return Value
+end
+
+local NumberRange: Check<NumberRange> = function(Value)
+	assert(typeof(Value) == "NumberRange")
+
+	return Value
+end
+
+local NumberSequence: Check<NumberSequence> = function(Value)
+	assert(typeof(Value) == "NumberSequence")
+
+	return Value
+end
+
+local Ray: Check<Ray> = function(Value)
+	assert(typeof(Value) == "Ray")
+
+	return Value
+end
+
+local RaycastParams: Check<RaycastParams> = function(Value)
+	assert(typeof(Value) == "RaycastParams")
+
+	return Value
+end
+
+local RaycastResult: Check<RaycastResult> = function(Value)
+	assert(typeof(Value) == "RaycastResult")
+
+	return Value
+end
+
+local Region3: Check<Region3> = function(Value)
+	assert(typeof(Value) == "Region3")
+	assert(Value == Value)
+
+	return Value
+end
+
+local Region3int16: Check<Region3int16> = function(Value)
+	assert(typeof(Value) == "Region3int16")
+
+	return Value
+end
+
+local TweenInfo: Check<TweenInfo> = function(Value)
+	assert(typeof(Value) == "TweenInfo")
 
 	return Value
 end
@@ -215,9 +270,23 @@ local Vector3int16: Check<Vector3int16> = function(Value)
 	return Value
 end
 
+-- Additional Roblox features
+
+local Player: Check<Player> = function(Value)
+	assert(Value:IsA("Player"))
+
+	return Value :: Player
+end
+
+local Model: Check<Model> = function(Value)
+	assert(Value:IsA("Model"))
+
+	return Value :: Model
+end
+
 -- Check
 
-local function Check<T>(Check: Check<T>): (Value: unknown) -> (boolean, T)
+local function Check<T>(Check: Check<T>): (Value: unknown | any) -> (boolean, T)
 	return function(Value)
 		return pcall(Check, Value)
 	end
@@ -249,12 +318,23 @@ return {
 
 	CFrame = CFrame,
 	Color3 = Color3,
+	ColorSequence = ColorSequence,
 	DateTime = DateTime,
 	Instance = Instance,
+	NumberRange = NumberRange,
+	NumberSequence = NumberSequence,
+	Ray = Ray,
+	RaycastParams = RaycastParams,
+	RaycastResult = RaycastResult,
+	Region3 = Region3,
+	Region3int16 = Region3int16,
+	TweenInfo = TweenInfo,
 	Vector2 = Vector2,
 	Vector2int16 = Vector2int16,
 	Vector3 = Vector3,
 	Vector3int16 = Vector3int16,
+	Player = Player,
+	Model = Model,
 
 	Check = Check,
 }
